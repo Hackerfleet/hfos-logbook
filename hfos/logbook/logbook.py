@@ -62,7 +62,8 @@ LogbookSchema = {
         'category': {'type': 'string', 'title': 'Category',
                      'enum': ['Incident', 'Navigation', 'Technical', 'Bridge'],
                      'description': 'Category of log event'},
-        'subcategory'
+        'subcategory': {'type': 'string', 'format': 'html', 'title': 'Sub Category',
+                        'description': 'Sub Category of log event'},
         'notes': {'type': 'string', 'format': 'html', 'title': 'User notes',
                   'description': 'Entry notes'},
 

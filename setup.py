@@ -45,11 +45,11 @@ hfos-navdata package.
           'hfos>=1.2.0',
           'hfos-navdata>=0.0.1'
       ],
-      entry_points="""[hfos.components]
+      entry_points="""[isomer.components]
     logbook=hfos.logbook.logbookwatcher:Logbookwatcher
-    [hfos.schemata]
+    [isomer.schemata]
     logbookconfig=hfos.logbook.logbookconfig:LogbookConfig
-    [hfos.provisions]
+    [isomer.provisions]
     logbookconfig=hfos.logbook.provisions.logbookconfig:provision
     """,
       test_suite="tests.main.main",

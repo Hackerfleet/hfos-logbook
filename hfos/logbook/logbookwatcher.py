@@ -30,8 +30,8 @@ Module: LogbookWatcher
 
 """
 
-from hfos.component import ConfigurableComponent
-from hfos.logger import warn  # , hfoslog, error, critical
+from isomer.component import ConfigurableComponent
+from isomer.logger import warn  # , hfoslog, error, critical
 
 # from hfos.database import objectmodels
 # from datetime import datetime
@@ -42,7 +42,7 @@ class Logbookwatcher(ConfigurableComponent):
     """
     The LogbookWatcher component monitors logbook changes. It does not do much.
     """
-    channel = "hfosweb"
+    channel = 'isomer-web'
 
     configprops = {
     }
