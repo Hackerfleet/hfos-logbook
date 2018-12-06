@@ -33,9 +33,9 @@ Module: LogbookWatcher
 from isomer.component import ConfigurableComponent
 from isomer.logger import warn  # , hfoslog, error, critical
 
-# from hfos.database import objectmodels
+# from isomer.database import objectmodels
 # from datetime import datetime
-# from hfos.events.system import updatesubscriptions, send
+# from isomer.events.system import updatesubscriptions, send
 
 
 class Logbookwatcher(ConfigurableComponent):
