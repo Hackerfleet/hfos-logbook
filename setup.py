@@ -59,7 +59,7 @@ hfos-navdata package.
     dependency_links=[
     ],
     install_requires=[
-        'isomer>=1.0.0',
+        'isomer>=1.0',
         'hfos-navdata>=0.0.1'
     ],
     entry_points="""[isomer.components]
