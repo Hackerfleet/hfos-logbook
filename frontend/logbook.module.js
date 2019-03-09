@@ -3,7 +3,7 @@ import './logbook/logbook.scss';
 import angular from 'angular';
 import uirouter from 'angular-ui-router';
 
-import { routing } from './logbook.config.js';
+import {routing} from './logbook.config.js';
 
 import logbookcomponent from './logbook/logbook';
 import template from './logbook/logbook.tpl.html';
