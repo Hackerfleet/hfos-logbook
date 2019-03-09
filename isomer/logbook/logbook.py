@@ -3,7 +3,7 @@
 
 # HFOS - Hackerfleet Operating System
 # ===================================
-# Copyright (C) 2011-2018 Heiko 'riot' Weinen <riot@c-base.org> and others.
+# Copyright (C) 2011-2019 Heiko 'riot' Weinen <riot@c-base.org> and others.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -48,24 +48,40 @@ LogbookSchema = {
     'id': '#logbook',
     'name': 'logbook',
     'properties': {
-        'uuid': {'type': 'string', 'minLength': 36,
-                 'title': 'Unique Logbook Event ID', 'description': 'HIDDEN'},
-        'name': {'type': 'string', 'minLength': 1, 'title': 'Name',
-                 'description': 'Name of logbook entry'},
-        'severity': {'type': 'string', 'enum': ['Info', 'Warning', 'Critical'],
-                     'default': 'Info'},
-        'owner': {'type': 'string', 'minLength': 36,
-                  'title': "Owner's Unique ID", 'description': 'HIDDEN'},
-        'time': {'type': 'string', 'format': 'datetimepicker',
-                 'title': 'Event time',
-                 'description': 'Date and time of event'},
-        'category': {'type': 'string', 'title': 'Category',
-                     'enum': ['Incident', 'Navigation', 'Technical', 'Bridge'],
-                     'description': 'Category of log event'},
-        'subcategory': {'type': 'string', 'format': 'html', 'title': 'Sub Category',
-                        'description': 'Sub Category of log event'},
-        'notes': {'type': 'string', 'format': 'html', 'title': 'User notes',
-                  'description': 'Entry notes'},
+        'uuid': {
+            'type': 'string', 'minLength': 36,
+            'title': 'Unique Logbook Event ID', 'description': 'HIDDEN'
+        },
+        'name': {
+            'type': 'string', 'minLength': 1, 'title': 'Name',
+            'description': 'Name of logbook entry'
+        },
+        'severity': {
+            'type': 'string', 'enum': ['Info', 'Warning', 'Critical'],
+            'default': 'Info'
+        },
+        'owner': {
+            'type': 'string', 'minLength': 36,
+            'title': "Owner's Unique ID", 'description': 'HIDDEN'
+        },
+        'time': {
+            'type': 'string', 'format': 'datetimepicker',
+            'title': 'Event time',
+            'description': 'Date and time of event'
+        },
+        'category': {
+            'type': 'string', 'title': 'Category',
+            'enum': ['Incident', 'Navigation', 'Technical', 'Bridge'],
+            'description': 'Category of log event'
+        },
+        'subcategory': {
+            'type': 'string', 'format': 'html', 'title': 'Sub Category',
+            'description': 'Sub Category of log event'
+        },
+        'notes': {
+            'type': 'string', 'format': 'html', 'title': 'User notes',
+            'description': 'Entry notes'
+        },
 
     }
 }
