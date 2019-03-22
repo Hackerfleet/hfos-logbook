@@ -65,9 +65,7 @@ hfos-navdata package.
     entry_points="""[isomer.components]
     logbook=isomer.logbook.logbookwatcher:Logbookwatcher
     [isomer.schemata]
-    logbookconfig=isomer.logbook.logbookconfig:LogbookConfig
-    [isomer.provisions]
-    logbookconfig=isomer.logbook.provisions.logbookconfig:provision
+    logbookentry=isomer.logbook.logbookentry:LogbookEntry
     """,
     test_suite="tests.main.main",
 )
