@@ -1,1 +1,139 @@
+/*!
+ * Isomer - The distributed application framework
+ * ==============================================
+ * Copyright (C) 2011-2019 Heiko 'riot' Weinen <riot@c-base.org> and others.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 @import '~scss/colors';
+
+#logbook {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#leftmostpane {
+  position: absolute;
+  top: 0;
+  bottom: 100px;
+  left: 0;
+  overflow: auto;
+  padding-right: 25px;
+  padding-left: 10px;
+}
+
+#middlepane {
+  width: inherit;
+  right: 0;
+  bottom: 100px;
+}
+
+#vMiddleResizer {
+  background-color: #aaa;
+  position: absolute;
+  top: 0;
+  bottom: 100px;
+  left: calc(25% - 10px);
+  width: 10px;
+  cursor: ew-resize;
+  z-index: 1000;
+}
+
+#middlepane > calendar > div > #vResizer {
+  top: 0;
+}
+
+#timeline {
+  position: absolute;
+  height: 100px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.svg-container {
+  display: inline-block;
+  position: relative;
+  height: 100px;
+  width: 100%;
+  //padding-bottom: 100%; /* aspect ratio */
+  vertical-align: top;
+  overflow: hidden;
+}
+.svg-content-responsive {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 0;
+}
+
+.chart {
+  shape-rendering: crispEdges;
+}
+
+.mini text {
+  font: 9px sans-serif;
+}
+
+.main text {
+  font: 12px sans-serif;
+}
+
+.month text {
+  text-anchor: start;
+}
+
+.todayLine {
+  stroke: blue;
+  stroke-width: 1.5;
+}
+
+.axis line, .axis path {
+  stroke: black;
+}
+
+.miniItem {
+  stroke-width: 6;
+}
+
+.future {
+  stroke: gray;
+  fill: #ddd;
+}
+
+.past {
+  stroke: green;
+  fill: lightgreen;
+}
+
+.brush .extent {
+  stroke: gray;
+  fill: blue;
+  fill-opacity: .165;
+}
+
+.entry_Info {
+  background-color: $color-primary-2;
+}
+
+.entry_Warning {
+  background-color: yellow;
+}
+
+.entry_Critical {
+  background-color: red;
+}

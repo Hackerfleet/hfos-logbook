@@ -1,55 +1,54 @@
-<div class="jumbotron">
-    <h1>Logbook</h1>
-    <h3 class="text-danger">Work in progress!</h3>
-    <div class="row">
 
-        <div class="col-md-6 text-center">
-            <div class="btn-group">
+<button id="sidebargrab" type="button" ng-click="$ctrl.scope.$broadcast('Resize', '75%')">
+    <span id="sidebargrabicon" class="fa fa-arrow-left"></span>
+</button>
 
-                <button
-                        class="btn btn-primary"
-                        mwl-date-modifier
-                        date="$ctrl.calendarDate"
-                        decrement="$ctrl.calendarView">
-                    Previous
-                </button>
-                <button
-                        class="btn btn-default"
-                        mwl-date-modifier
-                        date="$ctrl.calendarDate"
-                        set-to-today>
-                    Today
-                </button>
-                <button
-                        class="btn btn-primary"
-                        mwl-date-modifier
-                        date="$ctrl.calendarDate"
-                        increment="$ctrl.calendarView">
-                    Next
-                </button>
-            </div>
-        </div>
+<div class="well content" id="logbook">
+    <div id="leftmostpane" style="position: absolute; top:0; bottom: 0; left: 0">
+        <h1>Logbook <span>{{$ctrl.minExtent | date:'fullDate'}}-{{$ctrl.maxExtent | date:'fullDate'}}</span></h1>
 
-        <br class="visible-xs visible-sm">
-
-        <div class="col-md-6 text-center">
-            <div class="btn-group" ng-model="$ctrl.foobar" bs-radio-group>
-                <label class="btn btn-default"><input class="btn btn-default" value="0" type="radio"> Year</label>
-                <label class="btn btn-default"><input class="btn btn-default" value="1" type="radio">
-                    Month</label>
-                <label class="btn btn-default"><input class="btn btn-default" value="week" type="radio"> Week</label>
-                <label class="btn btn-default"><input class="btn btn-default" value="day" type="radio"> Day</label>
-            </div>
-        </div>
-
+        <table ng-table="$ctrl.tableParams"
+               show-filter="true"
+               class="table table-condensed table-bordered table-striped">
+            <tr ng-repeat="entry in $data">
+                <td class="text-nowrap" title="'Date'" sortable="'number'">
+                    {{entry.start | date:'shortDate'}}
+                </td>
+                <td class="text-nowrap" title="'Severity'" filter="{ text: 'severity'}" sortable="'text'"
+                    ng-class="'entry_' + entry.severity">
+                    {{entry.severity}}
+                </td>
+                <td class="text-nowrap" title="'Category'" filter="{ text: 'category'}" sortable="'text'">
+                    {{entry.category}}
+                </td>
+                <td class="text-nowrap" title="'Text'" filter="{ text: 'text'}" sortable="'text'">
+                    <a ng-click="$ctrl.switchentry(entry.uuid)"><span
+                            ng-bind="entry.name != null ? entry.name : 'Untitled log entry'"></span></a>
+                </td>
+                <td class="text-nowrap"
+                    title="'Actions'">
+                    <a ng-click="$ctrl.zoom_to_entry(entry)">
+                        <span class="fa fa-crosshairs"></span>
+                    </a>
+                    <a ng-click="$ctrl.select_entry(entry.uuid)">
+                        <span class="fa fa-pencil"></span>
+                    </a>
+                    <a ng-click="$ctrl.delete_entry(entry.uuid)">
+                        <span class="fa fa-times"></span>
+                    </a>
+                </td>
+            </tr>
+        </table>
     </div>
-    <mwl-calendar
-            view="$ctrl.calendarView"
-            view-date="$ctrl.calendarDate"
-            events="$ctrl.events"
-            view-title="$ctrl.calendarTitle"
-            on-event-click="$ctrl.eventClicked(calendarEvent)"
-            on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
-            cell-is-open="true">
-    </mwl-calendar>
+
+    <!-- Vertical Resizer -->
+    <div id="vMiddleResizer" resizer="vertical" resizer-width="10" resizer-left="#leftmostpane"
+         resizer-right="#middlepane"></div>
+
+    <div id="middlepane">
+        <map></map>
+    </div>
+
+    <div id="timeline">
+    </div>
 </div>
