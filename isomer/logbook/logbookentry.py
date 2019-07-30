@@ -32,7 +32,7 @@ Schema: LogbookEntry
 Contains
 --------
 
-Multiple logbook-entry and a general logbook schemata.
+Multiple logbook-entry and a general logbook schema.
 
 See also
 --------
@@ -89,7 +89,7 @@ LogbookEntrySchema['properties'].update({
     },
     'category': {
         'type': 'string', 'title': 'Category',
-        'enum': ['Incident', 'Navigation', 'Technical', 'Bridge'],
+        'enum': ['Incident', 'Navigation', 'Technical', 'Bridge', 'Weather'],
         'description': 'Category of log event',
         'x-schema-form': {
             'type': 'select',
@@ -97,7 +97,8 @@ LogbookEntrySchema['properties'].update({
                 'Incident': 'Incident',
                 'Navigation': 'Navigation',
                 'Technical': 'Technical',
-                'Bridge': 'Bridge'
+                'Bridge': 'Bridge',
+                'Weather': 'Weather'
             }
         }
     },
@@ -108,7 +109,135 @@ LogbookEntrySchema['properties'].update({
     'notes': {
         'type': 'string', 'format': 'html', 'title': 'User notes',
         'description': 'Entry notes'
-    }
+    },
+    'weather': {
+        'type': 'object',
+        'properties': {
+            'coverage': {
+                'type': 'integer',
+                'max': 8,
+                'min': 0,
+                'title': 'Cloud coverage',
+                'description': '0-8/8 of cloud coverage'
+            },
+            'wind': {
+                'type': 'object',
+                'properties': {
+                    'direction': {
+                        'type': 'integer',
+                        'max': 359,
+                        'min': 0,
+                        'title': 'Wind speed (°)'
+                    },
+                    'speed': {  # TODO: See https://github.com/Hackerfleet/hfos/issues/1
+                        'type': 'integer',
+                        'max': 250,
+                        'min': 0,
+                        'title': 'Wind speed (m/s)'
+                    },
+                    'gust': {
+                        'type': 'integer',
+                        'max': 250,
+                        'min': 0,
+                        'title': 'Gust speed (m/s)'
+                    }
+                }
+            },
+            'waves': {
+                'type': 'array',
+                'items': {
+                    'type': 'object',
+                    'properties': {
+                        'direction': {
+                            'type': 'integer',
+                            'max': 359,
+                            'min': 0,
+                            'title': 'Wave direction (°)'
+                        },
+                        'speed': {
+                            # TODO: See https://github.com/Hackerfleet/hfos/issues/1
+                            'type': 'integer',
+                            'max': 250,
+                            'min': 0,
+                            'title': 'Wave speed (m/s)'
+                        },
+                        'height': {
+                            'type': 'integer',
+                            'max': 250,
+                            'min': 0,
+                            'title': 'Wave height (m)'
+                        },
+                        'distance': {
+                            'type': 'integer',
+                            'max': 5000,
+                            'min': 0,
+                            'title': 'Wave distance (m)'
+                        }
+                    }
+                }
+            },
+            'barometer': {
+                'type': 'integer',
+                'min': 800,
+                'max': 1200,
+                'title': 'Barometer (hPa)',
+                'description': 'Air pressure'
+            },
+            'thermometer': {
+                'type': 'object',
+                'properties': {
+                    'air': {
+                        'type': 'float',
+                        'min': -90,
+                        'max': 60,
+                        'title': 'Air (°C)',
+                        'description': 'Air temperature'
+                    },
+                    'water': {
+                        'type': 'float',
+                        'min': -2,
+                        'max': 45,
+                        'title': 'Water (°C)',
+                        'description': 'Water temperature'
+                    }
+                }
+            },
+            'hygrometer': {
+                'type': 'integer',
+                'min': 0,
+                'max': 100,
+                'title': 'Humidity (%)',
+                'description': 'Relative air humidity'
+            }
+        }
+    },
+    'bridge': {
+        'type': 'object',
+        'properties': {
+            'text': {
+                'type': 'text',
+                'title': 'Entry',
+                'description': 'Bridge entry custom text'
+            }
+        }
+    },
+    'technical': {
+        'type': 'object',
+        'properties': {
+
+        }
+    },
+    'navigation': {
+        'type': 'object',
+        'properties': {
+        }
+    },
+    'incident': {
+        'type': 'object',
+        'properties': {
+
+        }
+    },
 })
 
 LogbookEntry = {'schema': LogbookEntrySchema, 'form': defaultform}
