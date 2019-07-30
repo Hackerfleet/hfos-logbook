@@ -10,7 +10,7 @@ let d3 = require('d3');
  * Controller of the hfosFrontendApp
  */
 class LogbookCtrl {
-    constructor($scope, $compile, user, ObjectProxy, moment, notification, NgTableParams) {
+    constructor($scope, $compile, user, ObjectProxy, moment, notification, NgTableParams, $timeout) {
         this.scope = $scope;
         this.compile = $compile;
         this.user = user;
@@ -21,6 +21,10 @@ class LogbookCtrl {
 
         this.minExtent = 0;
         this.maxExtent = 1;
+
+        this.mapVisible = true;
+        this.editorVisible = false;
+        this.timelineVisible = true;
 
         this.tableParams = new NgTableParams({}, {
             getData: function (params) {
@@ -44,10 +48,35 @@ class LogbookCtrl {
             }
         });
 
+        this.lockState = false;
+
+        this.clock = Date.now();
+        this.tickInterval = 1000;
+
+        let tick = function () {
+            self.clock = Date.now();
+            $timeout(tick, self.tickInterval);
+        };
+
+        // Start the timer
+        this.clockTimer = $timeout(tick, this.tickInterval);
 
         this.setup_swimlane();
+
+
+        self.scope.$on('$destroy', function () {
+            $timeout.cancel(self.clockTimer);
+        });
     }
 
+    toggleLock() {
+        this.lockState = !this.lockState;
+    }
+
+    addEntry() {
+        this.mapVisible = false;
+        this.editorVisible = true;
+    }
 
     setup_swimlane() {
 
@@ -424,12 +453,10 @@ class LogbookCtrl {
             if ((maxExtent - minExtent) > 1468800000) {
                 x1DateAxis.ticks(d3.time.mondays, 1).tickFormat(d3.time.format('%a %d'))
                 x1MonthAxis.ticks(d3.time.mondays, 1).tickFormat(d3.time.format('%b - Week %W'))
-            }
-            else if ((maxExtent - minExtent) > 172800000) {
+            } else if ((maxExtent - minExtent) > 172800000) {
                 x1DateAxis.ticks(d3.time.days, 1).tickFormat(d3.time.format('%a %d'))
                 x1MonthAxis.ticks(d3.time.mondays, 1).tickFormat(d3.time.format('%b - Week %W'))
-            }
-            else {
+            } else {
                 x1DateAxis.ticks(d3.time.hours, 4).tickFormat(d3.time.format('%I %p'))
                 x1MonthAxis.ticks(d3.time.days, 1).tickFormat(d3.time.format('%b %e'))
             }
@@ -513,7 +540,8 @@ class LogbookCtrl {
         function moveBrush() {
             var origin = d3.mouse(this)
                 , point = x.invert(origin[0])
-                , halfExtent = (brush.extent()[1].getTime() - brush.extent()[0].getTime()) / 2
+                ,
+                halfExtent = (brush.extent()[1].getTime() - brush.extent()[0].getTime()) / 2
                 , start = new Date(point.getTime() - halfExtent)
                 , end = new Date(point.getTime() + halfExtent);
 
@@ -541,6 +569,6 @@ class LogbookCtrl {
     }
 }
 
-LogbookCtrl.$inject = ['$scope', '$compile', 'user', 'objectproxy', 'moment', 'notification', 'NgTableParams'];
+LogbookCtrl.$inject = ['$scope', '$compile', 'user', 'objectproxy', 'moment', 'notification', 'NgTableParams', '$timeout'];
 
 export default LogbookCtrl;
