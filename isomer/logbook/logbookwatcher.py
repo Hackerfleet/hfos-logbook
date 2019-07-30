@@ -65,3 +65,8 @@ class Logbookwatcher(ConfigurableComponent):
     def objectcreation(self, event):
         if event.schema in ('logbookentry', 'logbookconfig'):
             self.log("Logbook related item was modified: ", event)
+
+    def objectchange(self, event):
+        if event.schema == 'nodestate':
+            self.log('Nodestate change detected, logging..')
+
