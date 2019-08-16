@@ -45,32 +45,37 @@
                             <a role="button" class="btn"
                                ng-click="$ctrl.mapVisible = true; $ctrl.editorVisible = false"
                                ng-class="{'active': $ctrl.mapVisible}">
-                                <i class="fa fa-map"></i>Show Map</a>
+                                <i class="fa fa-map"></i>
+                                Show Map</a>
                         </li>
 
                         <li class="inline-block">
                             <a role="button" class="btn"
                                ng-class="{'active': $ctrl.timelineVisible}"
                                ng-click="$ctrl.timelineVisible = !$ctrl.timelineVisible">
-                                <i class="fa fa-calendar"></i>Show Timeline</a>
+                                <i class="fa fa-calendar"></i>
+                                Show Timeline</a>
                         </li>
                         <li class="inline-block">
                             <a role="button" class="btn"
                                ng-class="{'active': show_setup}"
                                ng-click="show_setup = !show_setup">
-                                <i class="fa fa-gear"></i>Setup</a>
+                                <i class="fa fa-gear"></i>
+                                Setup</a>
                         </li>
                         <li class="inline-block">
                             <a role="button" class="btn"
                                ng-class="{'active': $ctrl.show_filters}"
                                ng-click="$ctrl.show_filters = !$ctrl.show_filters">
-                                <i class="fa fa-filter"></i>Filter</a>
+                                <i class="fa fa-filter"></i>
+                                Filter</a>
                         </li>
                         <li class="inline-block">
                             <a role="button" class="btn"
                                ng-click="$ctrl.addEntry()"
                                ng-class="{'active': $ctrl.editorVisible}">
-                                <i class="fa fa-plus" aria-hidden="true"></i>Add Entry
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                Add Entry
                             </a>
                         </li>
                     </ul>
@@ -126,33 +131,31 @@
                    show-filter="true"
                    class="table table-condensed table-bordered table-striped">
                 <tr ng-repeat="entry in $data">
-                    <td class="text-nowrap" title="'Date'" sortable="'number'">
+                    <td class="text-nowrap" title="'Date'" sortable="'start'">
                         {{entry.start | date:'shortDate'}}
                     </td>
                     <td class="text-nowrap" title="'Severity'"
-                        filter="{ text: 'severity'}" sortable="'text'"
+                        filter="{severity: 'select'}" sortable="'severity'"
                         ng-class="'entry_' + entry.severity">
                         {{entry.severity}}
                     </td>
                     <td class="text-nowrap" title="'Category'"
-                        filter="{ text: 'category'}" sortable="'text'">
+                        filter="{category: 'select'}" sortable="'category'">
                         {{entry.category}}
                     </td>
-                    <td class="text-nowrap" title="'Text'" filter="{ text: 'text'}"
-                        sortable="'text'">
-                        <a ng-click="$ctrl.switchentry(entry.uuid)"><span
-                                ng-bind="entry.name != null ? entry.name : 'Untitled log entry'"></span></a>
+                    <td class="text-nowrap" title="'Notes'"
+                        filter="{notes: 'text'}" sortable="'notes'">
+                        <a ng-click="$ctrl.selectEntry(entry.uuid)">
+                            <div ng-bind-html="entry.name != null ? entry.name : entry.notes"></div>
+                        </a>
                     </td>
                     <td class="text-nowrap"
                         title="'Actions'">
-                        <a ng-click="$ctrl.zoom_to_entry(entry)">
+                        <!-- <a ng-click="$ctrl.zoom_to_entry(entry)">
                             <span class="fa fa-crosshairs"></span>
-                        </a>
-                        <a ng-click="$ctrl.select_entry(entry.uuid)">
+                        </a> -->
+                        <a ng-click="$ctrl.selectEntry(entry.uuid)">
                             <span class="fa fa-pencil"></span>
-                        </a>
-                        <a ng-click="$ctrl.delete_entry(entry.uuid)">
-                            <span class="fa fa-times"></span>
                         </a>
                     </td>
                 </tr>
@@ -170,7 +173,7 @@
          ng-class="{'scrollable': !$ctrl.mapVisible && $ctrl.editorVisible,
                     'timelineVisible': $ctrl.timelineVisible}">
         <map ng-show="$ctrl.mapVisible"></map>
-        <objecteditor schema="logbookentry" ng-show="!$ctrl.mapVisible"></objecteditor>
+        <objecteditor eid="logbookEditor" schema="logbookentry" ng-show="!$ctrl.mapVisible"></objecteditor>
     </div>
 
     <div id="timeline" ng-show="$ctrl.timelineVisible">

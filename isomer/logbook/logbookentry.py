@@ -21,7 +21,7 @@
 __author__ = "Heiko 'riot' Weinen"
 __license__ = "AGPLv3"
 
-from isomer.schemata.defaultform import defaultform
+from isomer.schemata.defaultform import editbuttons, section, horizontal_divider
 from isomer.schemata.base import base_object
 
 """
@@ -52,30 +52,23 @@ LogbookEntrySchema['properties'].update({
                 "type": "number",
                 "maximum": 90,
                 "minimum": -90,
-                "title": "Latitude of coordinate.",
-                "description": "",
+                "title": "Latitude",
+                "description": "Latitude of coordinate",
             },
             "lng": {
                 "type": "number",
-                "maximum": -180,
-                "minimum": 180,
-                "title": "Longitude of coordinate.",
-                "description": "",
+                "maximum": 180,
+                "minimum": -180,
+                "title": "Longitude",
+                "description": "Longitude of coordinate",
             }
         }
     },
     'severity': {
         'type': 'string',
         'enum': ['Info', 'Warning', 'Critical'],
-        'default': 'Info',
-        'x-schema-form': {
-            'type': 'select',
-            'titleMap': {
-                'Info': 'Info',
-                'Warning': 'Warning',
-                'Critical': 'Critical'
-            }
-        }
+        'title': 'Severity',
+        'default': 'Info'
     },
     'start': {
         'type': 'string', 'format': 'datetimepicker',
@@ -89,22 +82,8 @@ LogbookEntrySchema['properties'].update({
     },
     'category': {
         'type': 'string', 'title': 'Category',
-        'enum': ['Incident', 'Navigation', 'Technical', 'Bridge', 'Weather'],
+        'enum': ['Incident', 'Navigation', 'Technical', 'Bridge', 'Weather', 'Radio'],
         'description': 'Category of log event',
-        'x-schema-form': {
-            'type': 'select',
-            'titleMap': {
-                'Incident': 'Incident',
-                'Navigation': 'Navigation',
-                'Technical': 'Technical',
-                'Bridge': 'Bridge',
-                'Weather': 'Weather'
-            }
-        }
-    },
-    'subcategory': {
-        'type': 'string', 'title': 'Sub Category',
-        'description': 'Sub Category of log event'
     },
     'notes': {
         'type': 'string', 'format': 'html', 'title': 'User notes',
@@ -115,8 +94,8 @@ LogbookEntrySchema['properties'].update({
         'properties': {
             'coverage': {
                 'type': 'integer',
-                'max': 8,
-                'min': 0,
+                'maximum': 8,
+                'minimum': 0,
                 'title': 'Cloud coverage',
                 'description': '0-8/8 of cloud coverage'
             },
@@ -125,52 +104,53 @@ LogbookEntrySchema['properties'].update({
                 'properties': {
                     'direction': {
                         'type': 'integer',
-                        'max': 359,
-                        'min': 0,
-                        'title': 'Wind speed (°)'
+                        'maximum': 359,
+                        'minimum': 0,
+                        'title': 'Wind direction (°)'
                     },
                     'speed': {  # TODO: See https://github.com/Hackerfleet/hfos/issues/1
                         'type': 'integer',
-                        'max': 250,
-                        'min': 0,
+                        'maximum': 250,
+                        'minimum': 0,
                         'title': 'Wind speed (m/s)'
                     },
                     'gust': {
                         'type': 'integer',
-                        'max': 250,
-                        'min': 0,
+                        'maximum': 250,
+                        'minimum': 0,
                         'title': 'Gust speed (m/s)'
                     }
                 }
             },
             'waves': {
                 'type': 'array',
+                'title': 'Waves',
                 'items': {
                     'type': 'object',
                     'properties': {
                         'direction': {
                             'type': 'integer',
-                            'max': 359,
-                            'min': 0,
+                            'maximum': 359,
+                            'minimum': 0,
                             'title': 'Wave direction (°)'
                         },
                         'speed': {
                             # TODO: See https://github.com/Hackerfleet/hfos/issues/1
                             'type': 'integer',
-                            'max': 250,
-                            'min': 0,
+                            'maximum': 250,
+                            'minimum': 0,
                             'title': 'Wave speed (m/s)'
                         },
                         'height': {
                             'type': 'integer',
-                            'max': 250,
-                            'min': 0,
+                            'maximum': 250,
+                            'minimum': 0,
                             'title': 'Wave height (m)'
                         },
                         'distance': {
                             'type': 'integer',
-                            'max': 5000,
-                            'min': 0,
+                            'maximum': 5000,
+                            'minimum': 0,
                             'title': 'Wave distance (m)'
                         }
                     }
@@ -178,8 +158,8 @@ LogbookEntrySchema['properties'].update({
             },
             'barometer': {
                 'type': 'integer',
-                'min': 800,
-                'max': 1200,
+                'minimum': 800,
+                'maximum': 1200,
                 'title': 'Barometer (hPa)',
                 'description': 'Air pressure'
             },
@@ -187,16 +167,16 @@ LogbookEntrySchema['properties'].update({
                 'type': 'object',
                 'properties': {
                     'air': {
-                        'type': 'float',
-                        'min': -90,
-                        'max': 60,
+                        'type': 'number',
+                        'minimum': -90,
+                        'maximum': 60,
                         'title': 'Air (°C)',
                         'description': 'Air temperature'
                     },
                     'water': {
-                        'type': 'float',
-                        'min': -2,
-                        'max': 45,
+                        'type': 'number',
+                        'minimum': -2,
+                        'maximum': 45,
                         'title': 'Water (°C)',
                         'description': 'Water temperature'
                     }
@@ -204,8 +184,8 @@ LogbookEntrySchema['properties'].update({
             },
             'hygrometer': {
                 'type': 'integer',
-                'min': 0,
-                'max': 100,
+                'minimum': 0,
+                'maximum': 100,
                 'title': 'Humidity (%)',
                 'description': 'Relative air humidity'
             }
@@ -214,30 +194,139 @@ LogbookEntrySchema['properties'].update({
     'bridge': {
         'type': 'object',
         'properties': {
-            'text': {
-                'type': 'text',
-                'title': 'Entry',
-                'description': 'Bridge entry custom text'
-            }
+            'subcategory': {
+                'type': 'string',
+                'enum': [
+                    'Arrival',
+                    'Departure',
+                    'ManifestCrew',
+                    'ObservationEnvironment',
+                    'CrewSafetyBriefing',
+                    'FirewatchEvent',
+                    'InspectionEvent',
+                    'LogcheckEvent',
+                    'WatchEvent'
+                ],
+            },
         }
     },
     'technical': {
         'type': 'object',
         'properties': {
-
+            'subcategory': {
+                'type': 'string',
+                'enum': [
+                    'MachineRPM',
+                    'MachineStatus',
+                    'BatteryStatus',
+                    'NavigationStatus',
+                    'EmergencyEquipmentStatus',
+                    'Breakdown',
+                    'BunkerChange',
+                    'BunkerLevel',
+                    'EngineReading',
+                    'OverhaulEvent'
+                ]
+            }
         }
     },
     'navigation': {
         'type': 'object',
         'properties': {
+            'subcategory': {
+                'type': 'string',
+                'enum': [
+                    'Course',
+                    'CourseOverGround',
+                    'SpeedOverWater',
+                    'SpeedOverGround',
+                    'SpeedCurrent',
+                    'DriftCurrent',
+                    'TidalData',
+                    'Maneuver',
+                    'FogSignal',
+                    'FogBehaviour',
+                    'LightsAndSignals',
+                    'Anchoring',
+                    'Towing',
+                    'CourseChange',
+                    'NavigationMark',
+                    'Position',
+                    'ShipMovements',
+                    'ShipPosition',
+                    'ShipSpeed',
+                ]
+            }
+
         }
     },
     'incident': {
         'type': 'object',
         'properties': {
-
+            'subcategory': {
+                'type': 'string',
+                'enum': [
+                    'Accident',
+                    'CollisionIncident',
+                    'DistressIncident',
+                    'EngineIncident',
+                    'PollutionIncident',
+                    'SalvageIncident',
+                    'SpillpreventionIncident',
+                ]
+            }
         }
     },
 })
 
-LogbookEntry = {'schema': LogbookEntrySchema, 'form': defaultform}
+LogbookEntryForm = [
+    section(2, 4, [
+        [
+            'start', 'end', 'category', 'severity'
+        ],
+        [
+            'coordinate.lat', 'coordinate.lng',
+        ]
+    ]),
+    horizontal_divider(),
+    section(4, 3, [
+        [
+            'weather.wind.direction', 'weather.wind.speed', 'weather.wind.gust'
+        ],
+        [
+            'weather.hygrometer', 'weather.thermometer.air',
+            'weather.thermometer.water',
+        ],
+        [
+            'weather.coverage', 'weather.barometer'
+        ],
+        [
+            'weather.waves'
+        ]
+    ], condition="$ctrl.model.category === 'Weather'"),
+    section(2, 3, [
+        [
+            'technical', 'technical.subcategory'
+        ]
+    ], condition="$ctrl.model.category === 'Technical'"),
+    section(2, 3, [
+        [
+            'navigation', 'navigation.subcategory'
+        ]
+    ], condition="$ctrl.model.category === 'navigation'"),
+    section(2, 3, [
+        [
+            'incident', 'incident.subcategory'
+        ]
+    ], condition="$ctrl.model.category === 'Incident'"),
+    section(2, 3, [
+        [
+            'bridge', 'bridge.subcategory'
+        ]
+    ], condition="$ctrl.model.category === 'Bridge'"),
+
+    'notes',
+    editbuttons
+]
+
+LogbookEntry = {'schema': LogbookEntrySchema, 'form': LogbookEntryForm}

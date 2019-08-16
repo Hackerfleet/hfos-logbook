@@ -26,13 +26,18 @@ class LogbookCtrl {
         this.editorVisible = false;
         this.timelineVisible = true;
 
+        this.lockState = false;
+
+        this.clock = Date.now();
+        this.tickInterval = 1000;
+
+        this.updateTimer = null;
+
         this.tableParams = new NgTableParams({}, {
             getData: function (params) {
+                console.log('[LOGBOOK] Getting new data');
                 let filter;
-
-                if (typeof filter === 'undefined') {
-                    filter = {'owner': self.user.useruuid};
-                }
+                filter = {'start': {'$gte': self.minExtent, '$lt': self.maxExtent}};
 
                 console.log("LOGBOOK_TABLE1:", params);
                 let limit = params._params.count;
@@ -48,10 +53,13 @@ class LogbookCtrl {
             }
         });
 
-        this.lockState = false;
+        this.getNewData = function () {
+            $timeout.cancel(self.updateTimer);
+            self.updateTimer = $timeout(function () {
+                self.tableParams.reload();
+            }, 2000);
 
-        this.clock = Date.now();
-        this.tickInterval = 1000;
+        };
 
         let tick = function () {
             self.clock = Date.now();
@@ -63,10 +71,16 @@ class LogbookCtrl {
 
         this.setup_swimlane();
 
-
         self.scope.$on('$destroy', function () {
             $timeout.cancel(self.clockTimer);
         });
+    }
+
+    selectEntry(uuid) {
+        this.editorVisible = true;
+        this.mapVisible = false;
+
+        this.scope.$broadcast('Changed.UUID', {eid: 'logbookEditor', uuid: uuid});
     }
 
     toggleLock() {
@@ -464,7 +478,8 @@ class LogbookCtrl {
             console.log('New Extent:', minExtent, maxExtent);
 
             self.minExtent = minExtent;
-            self.maxExtent = maxExtent
+            self.maxExtent = maxExtent;
+            self.getNewData();
 
             //x1Offset.range([0, x1(d3.time.day.ceil(now) - x1(d3.time.day.floor(now)))]);
             /*
